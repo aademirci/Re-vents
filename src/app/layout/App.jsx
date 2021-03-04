@@ -7,12 +7,14 @@ import EventForm from '../../features/events/eventForm/EventForm';
 import HomePage from '../../features/home/HomePage';
 import NavBar from '../../features/nav/NavBar';
 import Sandbox from '../../features/sandbox/Sandbox';
+import ModalManager from '../common/modals/ModalManager';
 
 const App = () => {
     const { key } = useLocation()
 
     return (
         <Fragment>
+            <ModalManager />
             <Route path="/" component={HomePage} exact />
             <Route path={'/(.+)'} render={() => (
                 <Fragment>
