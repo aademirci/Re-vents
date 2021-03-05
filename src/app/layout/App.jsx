@@ -8,6 +8,7 @@ import HomePage from '../../features/home/HomePage';
 import NavBar from '../../features/nav/NavBar';
 import Sandbox from '../../features/sandbox/Sandbox';
 import ModalManager from '../common/modals/ModalManager';
+import { ToastContainer } from 'react-toastify'
 
 const App = () => {
     const { key } = useLocation()
@@ -15,6 +16,7 @@ const App = () => {
     return (
         <Fragment>
             <ModalManager />
+            <ToastContainer position="bottom-right" hideProgressBar />
             <Route path="/" component={HomePage} exact />
             <Route path={'/(.+)'} render={() => (
                 <Fragment>
