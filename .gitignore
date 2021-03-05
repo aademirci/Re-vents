@@ -10,6 +10,8 @@
 
 # production
 /build
+/public/env.js
+/src/app/api/keys.js
 
 # misc
 .DS_Store
