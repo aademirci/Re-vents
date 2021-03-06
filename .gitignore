@@ -11,7 +11,8 @@
 # production
 /build
 /public/env.js
-/src/app/api/keys.js
+/src/app/config/keys.js
+/src/app/config/firebase.js
 
 # misc
 .DS_Store

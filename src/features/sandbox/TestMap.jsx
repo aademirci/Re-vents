@@ -1,6 +1,6 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
-import { GOOGLE_MAPS } from '../../app/api/keys';
+import { GOOGLE_MAPS } from '../../app/config/keys';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
