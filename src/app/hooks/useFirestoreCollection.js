@@ -14,7 +14,7 @@ const useFirestoreCollection = ({ query, data, dependencies }) => {
                 data(docs)
                 dispatch(asyncActionFinish())
             },
-            error => dispatch(asyncActionError())
+            error => dispatch(asyncActionError(error))
         )
 
         return () => {

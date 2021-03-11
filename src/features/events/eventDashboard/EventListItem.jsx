@@ -16,7 +16,7 @@ const EventListItem = ({ event }) => {
                         <Item.Content>
                             <Item.Header content={event.title} />
                             <Item.Description>
-                                Hosted by {event.hostedBy}
+                                Hosted by <Link to={`/profile/${event.hostUid}`}>{event.hostedBy}</Link>
                             </Item.Description>
                             {event.isCancelled && <Label style={{ top: '-40px'}} ribbon="right" color="red" content="This event is cancelled." />}
                         </Item.Content>
