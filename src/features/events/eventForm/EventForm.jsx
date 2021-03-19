@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import { Button, Confirm, Header, Segment } from 'semantic-ui-react'
-import { listenToEvents } from '../eventActions'
+import { listenToSelectedEvent } from '../eventActions'
 import * as Yup from 'yup'
 import MyTextInput from '../../../app/common/form/MyTextInput'
 import MyTextArea from '../../../app/common/form/MyTextArea'
@@ -22,7 +22,7 @@ const EventForm = ({ match, history }) => {
     const dispatch = useDispatch()
     const [loadingCancel, setLoadingCancel] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
-    const selectedEvent = useSelector(state => state.event.events.find(e => e.id === match.params.id))
+    const { selectedEvent } = useSelector(state => state.event)
     const { loading, error } = useSelector(state => state.async)
 
     const initialValues = selectedEvent ?? {
@@ -61,7 +61,7 @@ const EventForm = ({ match, history }) => {
 
     useFirestoreDoc({
         query: () => listenToEventFromFirestore(match.params.id),
-        data: event => dispatch(listenToEvents([event])),
+        data: event => dispatch(listenToSelectedEvent(event)),
         dependencies: [match.params.id, dispatch],
         shouldExecute: !!match.params.id
     })
