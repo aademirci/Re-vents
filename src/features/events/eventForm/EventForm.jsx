@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-no-duplicate-props */
 /* global google */
 import { Formik, Form } from 'formik'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import { Button, Confirm, Header, Segment } from 'semantic-ui-react'
-import { listenToSelectedEvent } from '../eventActions'
+import { clearSelectedEvent, listenToSelectedEvent } from '../eventActions'
 import * as Yup from 'yup'
 import MyTextInput from '../../../app/common/form/MyTextInput'
 import MyTextArea from '../../../app/common/form/MyTextArea'
@@ -18,12 +18,17 @@ import { addEventToFirestore, cancelEventToggle, listenToEventFromFirestore, upd
 import LoadingComponent from '../../../app/layout/LoadingComponent'
 import { toast } from 'react-toastify'
 
-const EventForm = ({ match, history }) => {
+const EventForm = ({ match, history, location }) => {
     const dispatch = useDispatch()
     const [loadingCancel, setLoadingCancel] = useState(false)
     const [confirmOpen, setConfirmOpen] = useState(false)
     const { selectedEvent } = useSelector(state => state.event)
     const { loading, error } = useSelector(state => state.async)
+
+    useEffect(() => {
+        if (location.pathname !== '/create') return
+        dispatch(clearSelectedEvent())
+    }, [dispatch, location.pathname])
 
     const initialValues = selectedEvent ?? {
         title: '',
@@ -63,7 +68,7 @@ const EventForm = ({ match, history }) => {
         query: () => listenToEventFromFirestore(match.params.id),
         data: event => dispatch(listenToSelectedEvent(event)),
         dependencies: [match.params.id, dispatch],
-        shouldExecute: !!match.params.id
+        shouldExecute: match.params.id !== selectedEvent?.id && location.pathname !== '/create'
     })
 
     if (loading) return <LoadingComponent content="Loading event" />
@@ -73,7 +78,7 @@ const EventForm = ({ match, history }) => {
     return (
         <Segment clearing>
             
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={async (values, { setSubmitting }) => {
+            <Formik enableReinitialize initialValues={initialValues} validationSchema={validationSchema} onSubmit={async (values, { setSubmitting }) => {
                 try {
                     selectedEvent ? await updateEventInFirestore(values) : await addEventToFirestore(values)
                     setSubmitting(false)
