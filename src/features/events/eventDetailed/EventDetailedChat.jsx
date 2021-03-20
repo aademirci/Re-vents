@@ -12,6 +12,7 @@ import EventDetailedChatForm from './EventDetailedChatForm'
 const EventDetailedChat = ({ eventId }) => {
     const dispatch = useDispatch()
     const { comments } = useSelector(state => state.event)
+    const { authenticated } = useSelector(state => state.auth)
     const [showReplyForm, setShowReplyForm] = useState({ open: false, commentId: null })
 
     const handleCloseReplyForm = () => {
@@ -33,9 +34,10 @@ const EventDetailedChat = ({ eventId }) => {
     return (
         <Fragment>
             <Segment textAlign="center" attached="top" inverted color="teal" style={{border: 'none'}}>
-                <Header>Chat about this event</Header>
+                <Header>{authenticated ? 'Chat about this event' : 'Sign in to view and comment'}</Header>
             </Segment>
 
+            {authenticated &&
             <Segment attached>
                 <EventDetailedChatForm eventId={eventId} parentId={0} closeForm={setShowReplyForm} />
                 <Comment.Group>
@@ -89,7 +91,7 @@ const EventDetailedChat = ({ eventId }) => {
                         </Comment>
                     ))}
                 </Comment.Group>
-            </Segment>
+            </Segment>}
         </Fragment>
     )
 }
