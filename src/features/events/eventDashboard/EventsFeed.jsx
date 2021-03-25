@@ -12,15 +12,15 @@ const EventsFeed = () => {
     useEffect(() => {
         getUserFeedRef().on('value', snapshot => {
             if (!snapshot.exists()) return
-
+            
             const feed = firebaseObjectToArray(snapshot.val()).reverse()
             dispatch(listenToFeed(feed))
 
             return () => {
                 getUserFeedRef().off()
             }
-        }, [dispatch])
-    })
+        })
+    }, [dispatch])
 
     return (
         <Fragment>
